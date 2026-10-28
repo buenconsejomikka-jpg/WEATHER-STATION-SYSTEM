@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Station System</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 25px 18px;
+      font-family: Arial, sans-serif;
+      background: #eaf3fb;
+      color: #243b53;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #246bb2, #4296d8);
+      color: white;
+      padding: 30px 26px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+      box-shadow: 0 5px 15px rgba(36, 107, 178, 0.18);
+    }
+
+    .header h1 {
+      margin: 0 0 9px;
+      font-size: 28px;
+      letter-spacing: 0.3px;
+    }
+
+    .header p {
+      margin: 0;
+      color: #e4f2ff;
+      font-size: 15px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #245d91;
+      margin: 0 0 16px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 23px 18px;
+      border-radius: 13px;
+      border: 1px solid #d5e6f5;
+      box-shadow: 0 4px 12px rgba(36, 91, 140, 0.06);
+      border-top: 4px solid #4a9bd8;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 23px;
+    }
+
+    .icon-box {
+      width: 43px;
+      height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 11px;
+      background: #e4f2ff;
+      font-size: 23px;
+      flex-shrink: 0;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #647b91;
+    }
+
+    .value {
+      font-size: clamp(22px, 3vw, 31px);
+      font-weight: 700;
+      color: #2676b8;
+      overflow-wrap: anywhere;
+    }
+
+    .unit {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #8499ad;
+    }
+
+    .info-panel {
+      margin-top: 25px;
+      padding: 23px;
+      background: white;
+      border: 1px solid #d5e6f5;
+      border-radius: 13px;
+      box-shadow: 0 4px 12px rgba(36, 91, 140, 0.05);
+    }
+
+    .info-panel h2 {
+      margin: 0 0 12px;
+      color: #245d91;
+      font-size: 17px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 14px 0;
+      border-bottom: 1px solid #eaf1f7;
+      font-size: 14px;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #72879b;
+    }
+
+    .info-value {
+      color: #2b6495;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .footer {
+      text-align: center;
+      color: #7d94a9;
+      font-size: 13px;
+      margin-top: 25px;
+      line-height: 1.8;
+    }
+
+    .footer strong {
+      color: #367fb8;
+    }
+
+    @media (max-width: 650px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .header {
+        padding: 24px 20px;
+      }
+
+      .header h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="header">
+      <h1>Weather Station System</h1>
+      <p>Environmental Monitoring Dashboard</p>
+    </header>
+
+    <h2 class="section-title">Current Weather Readings</h2>
+
+    <section class="cards">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-box">🌡️</div>
+          <h2>Temperature</h2>
+        </div>
+        <div class="value" id="temperature">--.- °C</div>
+        <div class="unit">Degrees Celsius</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-box">💧</div>
+          <h2>Humidity</h2>
+        </div>
+        <div class="value" id="humidity">--.- %</div>
+        <div class="unit">Relative Humidity</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="icon-box">🌧️</div>
+          <h2>Rain Status</h2>
+        </div>
+        <div class="value" id="rain">No data</div>
+        <div class="unit">Rain Monitoring</div>
+      </div>
+
+    </section>
+
+    <section class="info-panel">
+      <h2>Update Information</h2>
+
+      <div class="info-row">
+        <span class="info-label">Last Sensor Update</span>
+        <span class="info-value" id="updated">Waiting for data...</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Website Last Checked</span>
+        <span class="info-value" id="checked">--:--:--</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Data Source</span>
+        <span class="info-value">ThingSpeak</span>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <strong>WEATHER STATION SYSTEM</strong><br>
+      ESP32 · RAIN SENSOR. DHT22 · OLED Display
+    </footer>
+
+  </main>
+
+  <script>
+    const channelID = "3553782";
+
+    const url =
+      `https://api.thingspeak.com/channels/${channelID}/feeds/last.json`;
+
+    const CHECK_INTERVAL = 1000;
+
+    async function getWeatherData() {
+      document.getElementById("checked").textContent =
+        new Date().toLocaleTimeString();
+
+      try {
+        const response = await fetch(url, {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Unable to retrieve data");
+        }
+
+        const data = await response.json();
+
+        const temp = data.field1;
+        const humidity = data.field2;
+        const rainCode = data.field3;
+
+        if (
+          temp === null || temp === undefined || temp === "" ||
+          humidity === null || humidity === undefined || humidity === ""
+        ) {
+          throw new Error("No sensor readings available");
+        }
+
+        document.getElementById("temperature").textContent =
+          Number(temp).toFixed(1) + " °C";
+
+        document.getElementById("humidity").textContent =
+          Number(humidity).toFixed(1) + " %";
+
+        let rainStatus = "No data";
+
+        if (rainCode !== null && rainCode !== undefined && rainCode !== "") {
+          if (Number(rainCode) === 0) {
+            rainStatus = "No Rain";
+          } else if (Number(rainCode) === 1) {
+            rainStatus = "Light Rain";
+          } else if (Number(rainCode) === 2) {
+            rainStatus = "Heavy Rain";
+          }
+        }
+
+        document.getElementById("rain").textContent = rainStatus;
+
+        document.getElementById("updated").textContent =
+          data.created_at
+            ? new Date(data.created_at).toLocaleString()
+            : "Time unavailable";
+
+      } catch (error) {
+        console.error("ThingSpeak error:", error);
+
+        document.getElementById("updated").textContent =
+          "Unable to retrieve data";
+      }
+    }
+
+    getWeatherData();
+    setInterval(getWeatherData, CHECK_INTERVAL);
+  </script>
+</body>
+</html>
